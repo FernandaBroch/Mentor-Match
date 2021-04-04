@@ -36,4 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+##Mac DS_Store
 .DS_Store
+
+##DB Application Properties
+backend/src/main/resources/application.properties

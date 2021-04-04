@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Mentor {
-
+public class Mentored {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,11 +21,9 @@ public class Mentor {
 
     @ManyToMany
     @JsonIgnore
-    private List<Mentored> mentored;
+    private List<Mentor> likedList;
 
-    @OneToMany(mappedBy = "mentor")
+    @ManyToOne
     @JsonIgnore
-    private List<Mentored> likedList;
-
-
+    private Mentor mentor;
 }
