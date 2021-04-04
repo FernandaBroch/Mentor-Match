@@ -2,6 +2,7 @@ package br.com.dextra.javabootcamp.MentorMatch.controllers;
 
 import br.com.dextra.javabootcamp.MentorMatch.models.Mentor;
 import br.com.dextra.javabootcamp.MentorMatch.models.MentorResponse;
+import br.com.dextra.javabootcamp.MentorMatch.models.exceptions.HasMentorException;
 import br.com.dextra.javabootcamp.MentorMatch.models.exceptions.UnexistentEntityException;
 import br.com.dextra.javabootcamp.MentorMatch.services.MentorService;
 import io.swagger.annotations.Api;
@@ -30,8 +31,20 @@ public class MentorController {
             @ApiResponse( code= HttpServletResponse.SC_CREATED, message = "Criando uma mentora", response = Long.class )
     })
     public ResponseEntity<Long> create (@RequestBody Mentor mentor){
-        Mentor mentorResponse = mentorService.createMentor(mentor);
+        Mentor mentorResponse = mentorService.create(mentor);
         return ResponseEntity.status(HttpStatus.CREATED).body(mentorResponse.getId());
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Alteração de mentora")
+    @ApiResponses({
+            @ApiResponse( code= HttpServletResponse.SC_OK, message = "Alteração de mentora", response = Long.class )
+    })
+    public ResponseEntity<Long> update(@PathVariable(name="id") Long id , @RequestBody Mentor mentor) {
+        mentor.setId(id);
+        Mentor returnedMentor = mentorService.update(mentor);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnedMentor.getId());
     }
 
     @GetMapping("/{id}")
@@ -62,6 +75,29 @@ public class MentorController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.ok(returnedList);
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleção de mentora")
+    @ApiResponses({
+            @ApiResponse( code= HttpServletResponse.SC_OK, message = "Deleção de mentora", response = String.class )
+    })
+    public ResponseEntity<String> delete(@PathVariable(name="id") Long id) {
+        mentorService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/like/{mentoredId}")
+    public ResponseEntity<String> like (@PathVariable(name = "mentoredId") Long mentoredId,
+                                        @RequestHeader("id") Long mentorId) {
+
+        try {
+            mentorService.likeMentored(mentoredId, mentorId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } catch (UnexistentEntityException | HasMentorException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
 }
