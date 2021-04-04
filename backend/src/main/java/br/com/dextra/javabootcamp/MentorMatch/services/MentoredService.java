@@ -21,7 +21,7 @@ public class MentoredService {
 
     MentorService mentorService;
 
-    //MatchService matchService;
+    MatchService matchService;
 
     public Mentored create(Mentored mentored) {
         return mentoredRepository.save(mentored);
@@ -72,6 +72,6 @@ public class MentoredService {
 
         mentored.getLikedList().add(mentor);
 
-        //matchService.match(mentor, mentored);
+        matchService.match(mentor, mentored);
     }
 }

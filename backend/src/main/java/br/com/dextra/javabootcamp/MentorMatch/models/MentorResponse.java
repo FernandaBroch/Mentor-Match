@@ -1,5 +1,4 @@
 package br.com.dextra.javabootcamp.MentorMatch.models;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
