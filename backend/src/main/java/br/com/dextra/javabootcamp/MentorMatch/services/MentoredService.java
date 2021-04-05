@@ -11,16 +11,17 @@ import br.com.dextra.javabootcamp.MentorMatch.models.exceptions.HasMentorExcepti
 import br.com.dextra.javabootcamp.MentorMatch.models.exceptions.UnexistentEntityException;
 import br.com.dextra.javabootcamp.MentorMatch.repositories.MentoredRepository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MentoredService {
-
+    @Autowired
     MentoredRepository mentoredRepository;
-
+    @Autowired
     MentorService mentorService;
-
+    @Autowired
     MatchService matchService;
 
     public Mentored create(Mentored mentored) {

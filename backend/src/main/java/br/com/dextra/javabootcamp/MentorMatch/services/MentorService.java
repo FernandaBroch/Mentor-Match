@@ -15,13 +15,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class MentorService {
 
+    @Autowired
     MentorRepository mentorRepository;
 
+    @Autowired
     MentoredService mentoredService;
 
+    @Autowired
     MatchService matchService;
 
     public Mentor create(Mentor mentor){
